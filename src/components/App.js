@@ -14,15 +14,21 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
 
   function handleEditAvatarClick() {
-    setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen)
+    setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
   }
 
   function handleEditProfileClick() {
-    setIsEditProfilePopupOpen(!isEditProfilePopupOpen)
+    setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
   }
 
   function handleAddPlaceClick() {
-    setIsAddPlacePopupOpen(!isAddPlacePopupOpen)
+    setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
+  }
+
+  function closeAllPopups() {
+    setIsAddPlacePopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
   }
 
   return (
@@ -33,7 +39,7 @@ function App() {
         <div className="places-list root__section">
         </div>
       </div>
-      <PopupWithForm title="Новое место" name="" formName="new" id="" isOpen={isAddPlacePopupOpen}>
+      <PopupWithForm title="Новое место" name="" formName="new" id="" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
         <span id="name-error" className="popup__error"></span>
         <input id="name" type="text" name="name" className="popup__input popup__input_type_name" placeholder="Название"
           required minlength="2" maxlength="30" />
@@ -42,7 +48,7 @@ function App() {
           placeholder="Ссылка на картинку" required minlength="2" />
         <button type disabled className="button popup__button">+</button>
       </PopupWithForm>
-      <PopupWithForm title="Редактировать профиль" name="popup_edit-profile" formName="formProfile" id="" isOpen={isEditProfilePopupOpen}>
+      <PopupWithForm title="Редактировать профиль" name="popup_edit-profile" formName="formProfile" id="" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
         <span id="name-error" className="popup__error"></span>
         <input id="name" type="text" name="name" className="popup__input popup__input_type_name" placeholder="Имя" required
           minlength="2" maxlength="30" />
@@ -51,7 +57,7 @@ function App() {
           required minlength="2" maxlength="30" />
         <button type disabled className="button popup__button popup__button_edit-profile">Сохранить</button>
       </PopupWithForm>
-      <PopupWithForm title="Обновть аватар" name="" formName="formAvatar" id="avatarEditPopup" isOpen={isEditAvatarPopupOpen}>
+      <PopupWithForm title="Обновть аватар" name="" formName="formAvatar" id="avatarEditPopup" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
         <span id="avatarLink-error" className="popup__error"></span>
         <input id="avatarLink" type="text" name="link" className="popup__input"
           placeholder="Ссылка на аватар" required minlength="2" pattern="^(https?:\/\/)?([\w-]{1,32}\.[\w-]{1,32})[^\s@]*$" />
