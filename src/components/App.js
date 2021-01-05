@@ -1,5 +1,5 @@
 import closePath from '../images/close.svg';
-import React from 'react'; 
+import React from 'react';
 
 import Header from './Header.js';
 import Profile from './Profile.js';
@@ -12,6 +12,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState({});
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
@@ -25,45 +26,59 @@ function App() {
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   }
 
+  function handleCardClick(card) {
+    const newObj = {...card}
+    setSelectedCard(newObj);
+  }
+
   function closeAllPopups() {
     setIsAddPlacePopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
+    setSelectedCard({});
   }
 
   return (
     <>
       <div className="root">
         <Header />
-        <Profile onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} />
+        <Profile
+          onAddPlace={handleAddPlaceClick}
+          onEditAvatar={handleEditAvatarClick}
+          onEditProfile={handleEditProfileClick}
+          onCardClick={handleCardClick} />
         <div className="places-list root__section">
         </div>
       </div>
-      <PopupWithForm title="Новое место" name="" formName="new" id="" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
+      <PopupWithForm
+        title="Новое место" name="" formName="new" id=""
+        isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
         <span id="name-error" className="popup__error"></span>
         <input id="name" type="text" name="name" className="popup__input popup__input_type_name" placeholder="Название"
-          required minlength="2" maxlength="30" />
+          required minLength="2" maxLength="30" />
         <span id="link-error" className="popup__error"></span>
         <input id="link" type="text" name="link" className="popup__input popup__input_type_link-url"
-          placeholder="Ссылка на картинку" required minlength="2" />
-        <button type disabled className="button popup__button">+</button>
+          placeholder="Ссылка на картинку" required minLength="2" />
+        <button disabled className="button popup__button">+</button>
       </PopupWithForm>
-      <PopupWithForm title="Редактировать профиль" name="popup_edit-profile" formName="formProfile" id="" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
+      <PopupWithForm title="Редактировать профиль" name="popup_edit-profile" formName="formProfile" id=""
+        isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
         <span id="name-error" className="popup__error"></span>
         <input id="name" type="text" name="name" className="popup__input popup__input_type_name" placeholder="Имя" required
-          minlength="2" maxlength="30" />
+          minLength="2" maxLength="30" />
         <span id="about-error" className="popup__error"></span>
         <input id="about" type="text" name="about" className="popup__input popup__input_type_link-url" placeholder="О себе"
-          required minlength="2" maxlength="30" />
-        <button type disabled className="button popup__button popup__button_edit-profile">Сохранить</button>
+          required minLength="2" maxLength="30" />
+        <button disabled className="button popup__button popup__button_edit-profile">Сохранить</button>
       </PopupWithForm>
-      <PopupWithForm title="Обновть аватар" name="" formName="formAvatar" id="avatarEditPopup" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
+      <PopupWithForm title="Обновть аватар" name="" formName="formAvatar" id="avatarEditPopup"
+        isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
         <span id="avatarLink-error" className="popup__error"></span>
         <input id="avatarLink" type="text" name="link" className="popup__input"
-          placeholder="Ссылка на аватар" required minlength="2" pattern="^(https?:\/\/)?([\w-]{1,32}\.[\w-]{1,32})[^\s@]*$" />
-        <button id="avatarEditBtn" type disabled className="button popup__button popup__button_edit-profile">Сохранить</button>
+          placeholder="Ссылка на аватар" required minLength="2" pattern="^(https?:\/\/)?([\w-]{1,32}\.[\w-]{1,32})[^\s@]*$" />
+        <button id="avatarEditBtn" disabled className="button popup__button popup__button_edit-profile">Сохранить</button>
       </PopupWithForm>
-      <ImagePopup />
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
     </>
   );
 }
