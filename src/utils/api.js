@@ -76,7 +76,6 @@ class Api {
           return Promise.reject(res.status);
         })
     }
-
   }
 
   likeCard = (id) => {

@@ -5,6 +5,8 @@ import Header from './Header.js';
 import Profile from './Profile.js';
 import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js';
+import mestoApi from '../utils/api';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 
 function App() {
@@ -13,6 +15,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
+  const [currentUser, setСurrentUser] = React.useState({});
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
@@ -38,8 +41,25 @@ function App() {
     setSelectedCard({});
   }
 
+  function getUserInfo() {
+
+    mestoApi.getUserProfile()
+      .then((result) => {
+        const newObj = {...result}
+        setСurrentUser(newObj);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
+  }
+
+  React.useEffect(() => {
+    getUserInfo();
+  }, [])
+
   return (
     <>
+      <CurrentUserContext.Provider value={currentUser}>
       <div className="root">
         <Header />
         <Profile
@@ -79,6 +99,7 @@ function App() {
         <button id="avatarEditBtn" disabled className="button popup__button popup__button_edit-profile">Сохранить</button>
       </PopupWithForm>
       <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+      </CurrentUserContext.Provider>
     </>
   );
 }
