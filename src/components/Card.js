@@ -1,8 +1,7 @@
 import React from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function Card(props) {
-
+const Card = React.memo((props) => {
   const currentUser = React.useContext(CurrentUserContext);
   const card = props.card; 
   const isOwn = card.owner._id === currentUser._id;
@@ -14,7 +13,11 @@ function Card(props) {
 
   function handleClick() {
     props.onCardClick(card);
-  }   
+  }
+  
+  function handleLikeClick() {
+    props.onCardLike(card);
+  }
 
   return (
     <>
@@ -25,13 +28,13 @@ function Card(props) {
         <div className="place-card__description">
           <h3 className="place-card__name">{card.name}</h3>
           <div className="place-card__like-container">
-            <button className={cardLikeButtonClassName}></button>
+            <button className={cardLikeButtonClassName} onClick={handleLikeClick}></button>
             <p className="place-card__like-count">{card.likes.length}</p>
           </div>
         </div>
       </div>
     </>
   )
-}
+})
 
 export default Card; 

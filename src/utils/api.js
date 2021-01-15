@@ -78,22 +78,12 @@ class Api {
     }
   }
 
-  likeCard = (id) => {
-    return fetch(this.baseUrl + "/cards/like/" + id, {
-      method: 'PUT',
-      headers: this.headers
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(res.status);
-      })
-  }
+  likeCard = (id, isLiked) => {
+    
+    const method = isLiked ? 'DELETE' : 'PUT';
 
-  likeCardRemove = (id) => {
     return fetch(this.baseUrl + "/cards/like/" + id, {
-      method: 'DELETE',
+      method: method,
       headers: this.headers
     })
       .then(res => {
@@ -101,9 +91,6 @@ class Api {
           return res.json();
         }
         return Promise.reject(res.status);
-      })
-      .catch((err) => {
-        console.log(err);
       })
   }
 
