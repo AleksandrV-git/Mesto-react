@@ -9,7 +9,6 @@ import ImagePopup from './ImagePopup.js';
 import mestoApi from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-
 function App() {
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -35,6 +34,17 @@ function App() {
     setSelectedCard(newObj);
   }
 
+  function handleUpdateUser(user) {
+    mestoApi.patchUserProfile(user.name, user.about)
+      .then((user) => {
+        setСurrentUser(user);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
+  }
+
   function closeAllPopups() {
     setIsAddPlacePopupOpen(false);
     setIsEditProfilePopupOpen(false);
@@ -43,7 +53,6 @@ function App() {
   }
 
   function getUserInfo() {
-
     mestoApi.getUserProfile()
       .then((result) => {
         const newObj = {...result}
@@ -56,7 +65,7 @@ function App() {
 
   React.useEffect(() => {
     getUserInfo();
-  }, [])
+  }, [] )
 
   return (
     <>
@@ -82,7 +91,7 @@ function App() {
           placeholder="Ссылка на картинку" required minLength="2" />
         <button disabled className="button popup__button">+</button>
       </PopupWithForm>
-      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} /> 
+      <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} /> 
       <PopupWithForm title="Обновть аватар" name="" formName="formAvatar" id="avatarEditPopup"
         isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
         <span id="avatarLink-error" className="popup__error"></span>

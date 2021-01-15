@@ -1,25 +1,44 @@
-import closePath from '../images/close.svg';
-import PopupWithForm from './PopupWithForm.js';
 import React from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import PopupWithForm from './PopupWithForm.js';
 
 function EditProfilePopup(props) {
 
-  const [value, setValue] = React.useState('');
+  const currentUser = React.useContext(CurrentUserContext);
+  const [name, setName] = React.useState('');
+  const [description, setDescription] = React.useState('');
 
-  function handleChange(e) {
-    setValue(e.target.value);
+  function handleName(e) {
+    setName(e.target.value);
   }
 
+  function handleDescription(e) {
+    setDescription(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    props.onUpdateUser({
+      name: name,
+      about: description,
+    });
+  } 
+
+  React.useEffect(() => {
+    setName(currentUser.name);
+    setDescription(currentUser.about);
+  }, [currentUser]); 
+
   return (
-    <PopupWithForm title="Редактировать профиль" name="popup_edit-profile" formName="formProfile" id=""
-        isOpen={props.isEditProfilePopupOpen} onClose={props.closeAllPopups}>
+    <PopupWithForm onSubmit={handleSubmit} title="Редактировать профиль" name="popup_edit-profile" formName="formProfile" id=""
+        isOpen={props.isOpen} onClose={props.closeAllPopups}>
         <span id="name-error" className="popup__error"></span>
-        <input value={value} onChange={handleChange} id="name" type="text" name="name"
+        <input value={name} onChange={handleName} id="name" type="text" name="name"
           className="popup__input popup__input_type_name" placeholder="Имя" required minLength="2" maxLength="30" />
         <span id="about-error" className="popup__error"></span>
-        <input value={value} onChange={handleChange} id="about" type="text" name="about"
-          className="popup__input popup__input_type_link-url" placeholder="О себе" required minLength="2" maxLength="30" />
-        <button disabled className="button popup__button popup__button_edit-profile">Сохранить</button>
+        <input value={description} onChange={handleDescription} id="about" type="text" name="about"
+          className="popup__input popup__input_type_link-url" placeholder="О себе" required minLength="2" maxLength="60" />
+        <button className="button popup__button popup__button_edit-profile popup__btn_enabled">Сохранить</button>
       </PopupWithForm>
   );
 }
