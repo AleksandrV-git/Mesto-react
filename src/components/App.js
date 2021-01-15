@@ -5,6 +5,7 @@ import Header from './Header.js';
 import Profile from './Profile.js';
 import PopupWithForm from './PopupWithForm.js';
 import EditProfilePopup from './EditProfilePopup.js';
+import EditAvatarPopup from './EditAvatarPopup.js';
 import ImagePopup from './ImagePopup.js';
 import mestoApi from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
@@ -36,6 +37,17 @@ function App() {
 
   function handleUpdateUser(user) {
     mestoApi.patchUserProfile(user.name, user.about)
+      .then((user) => {
+        setСurrentUser(user);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
+  }
+
+  function handleUpdateAvatar(user) {
+    mestoApi.patchUserAvatar(user.avatar)
       .then((user) => {
         setСurrentUser(user);
         closeAllPopups();
@@ -92,13 +104,7 @@ function App() {
         <button disabled className="button popup__button">+</button>
       </PopupWithForm>
       <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} /> 
-      <PopupWithForm title="Обновть аватар" name="" formName="formAvatar" id="avatarEditPopup"
-        isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
-        <span id="avatarLink-error" className="popup__error"></span>
-        <input id="avatarLink" type="text" name="link" className="popup__input"
-          placeholder="Ссылка на аватар" required minLength="2" pattern="^(https?:\/\/)?([\w-]{1,32}\.[\w-]{1,32})[^\s@]*$" />
-        <button id="avatarEditBtn" disabled className="button popup__button popup__button_edit-profile">Сохранить</button>
-      </PopupWithForm>
+      <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
       <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </CurrentUserContext.Provider>
     </>
