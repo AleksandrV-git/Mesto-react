@@ -11,8 +11,7 @@ const Card = React.memo((props) => {
     `place-card__like-icon ${isLiked ? 'place-card__like-icon_liked' : ''}`
   ); 
 
-  function handleClick(event) {
-    event.stopPropagation;
+  function handleClick() {
     props.onCardClick(card);
   }
   
@@ -20,7 +19,8 @@ const Card = React.memo((props) => {
     props.onCardLike(card);
   }
 
-  function handleDeleteClick() {
+  function handleDeleteClick(event) {
+    event.stopPropagation();
     props.onCardDelete(card);
   }
 

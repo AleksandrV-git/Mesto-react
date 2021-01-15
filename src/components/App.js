@@ -4,6 +4,7 @@ import React from 'react';
 import Header from './Header.js';
 import Profile from './Profile.js';
 import PopupWithForm from './PopupWithForm.js';
+import EditProfilePopup from './EditProfilePopup.js';
 import ImagePopup from './ImagePopup.js';
 import mestoApi from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
@@ -81,16 +82,7 @@ function App() {
           placeholder="Ссылка на картинку" required minLength="2" />
         <button disabled className="button popup__button">+</button>
       </PopupWithForm>
-      <PopupWithForm title="Редактировать профиль" name="popup_edit-profile" formName="formProfile" id=""
-        isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
-        <span id="name-error" className="popup__error"></span>
-        <input id="name" type="text" name="name" className="popup__input popup__input_type_name" placeholder="Имя" required
-          minLength="2" maxLength="30" />
-        <span id="about-error" className="popup__error"></span>
-        <input id="about" type="text" name="about" className="popup__input popup__input_type_link-url" placeholder="О себе"
-          required minLength="2" maxLength="30" />
-        <button disabled className="button popup__button popup__button_edit-profile">Сохранить</button>
-      </PopupWithForm>
+      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} /> 
       <PopupWithForm title="Обновть аватар" name="" formName="formAvatar" id="avatarEditPopup"
         isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
         <span id="avatarLink-error" className="popup__error"></span>
