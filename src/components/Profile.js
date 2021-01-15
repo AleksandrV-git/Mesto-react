@@ -35,7 +35,22 @@ function Profile(props) {
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
       })
-} 
+  } 
+  function handleCardDelete(card) {
+
+    const isOwn = card.owner._id === currentUser._id;
+    if (isOwn) {
+      mestoApi.deleteCard(card._id)
+      .then(() => {
+      const newCards = cards.filter((c) => c._id !== card._id );
+      setCards(newCards);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
+  } 
+    }
+    
 
   React.useEffect(() => {
     getCards();
@@ -56,7 +71,7 @@ function Profile(props) {
       </div>
       <div className="places-list root__section">
         {cards.map((card, i) => (
-          <Card key={card._id} card={card} onCardClick={props.onCardClick} onCardLike={handleCardLike}/>
+          <Card key={card._id} card={card} onCardClick={props.onCardClick} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
         ))}
       </div>
     </>

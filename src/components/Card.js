@@ -11,7 +11,8 @@ const Card = React.memo((props) => {
     `place-card__like-icon ${isLiked ? 'place-card__like-icon_liked' : ''}`
   ); 
 
-  function handleClick() {
+  function handleClick(event) {
+    event.stopPropagation;
     props.onCardClick(card);
   }
   
@@ -19,11 +20,15 @@ const Card = React.memo((props) => {
     props.onCardLike(card);
   }
 
+  function handleDeleteClick() {
+    props.onCardDelete(card);
+  }
+
   return (
     <>
       <div className="place-card">
         <div className="place-card__image" style={{ backgroundImage: `url(${card.link})` }} onClick={handleClick} >
-          <button className="place-card__delete-icon" style={{ display: `${cardDeleteButtonStyle}` }}></button>
+          <button className="place-card__delete-icon" style={{ display: `${cardDeleteButtonStyle}` }} onClick={handleDeleteClick}></button>
         </div>
         <div className="place-card__description">
           <h3 className="place-card__name">{card.name}</h3>

@@ -62,7 +62,7 @@ class Api {
       })
   }
 
-  deleteCard = (id, removeHandler) => {
+  deleteCard = (id) => {
 
     if (window.confirm("Вы действительно хотите удалить эту карточку?")) {
       return fetch(this.baseUrl + "/cards/" + id, {
@@ -79,7 +79,7 @@ class Api {
   }
 
   likeCard = (id, isLiked) => {
-    
+
     const method = isLiked ? 'DELETE' : 'PUT';
 
     return fetch(this.baseUrl + "/cards/like/" + id, {
