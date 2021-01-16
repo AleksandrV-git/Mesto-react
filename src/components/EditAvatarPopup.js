@@ -25,7 +25,7 @@ function EditAvatarPopup(props) {
 
   return (
     <PopupWithForm onSubmit={handleSubmit} title="Обновть аватар" name="" formName="formAvatar" id="avatarEditPopup"
-      isOpen={props.isOpen} onClose={props.onClose}>
+    isOpen={props.isOpen} onClose={props.onClose}>
       <span id="avatarLink-error" className="popup__error"></span>
       <input ref={avatarRef} onChange={handleAvatar} id="avatarLink" type="text" name="link" className="popup__input"
         placeholder="Ссылка на аватар" required minLength="2" pattern="^(https?:\/\/)?([\w-]{1,32}\.[\w-]{1,32})[^\s@]*$" />
